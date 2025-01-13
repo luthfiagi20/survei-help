@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout/base">
+
+
+<body>
+<th:block th:fragment="sidebar">
+    <div class="sidebar" data-color="azure"
+         data-background-color="black"
+         th:attr="data-image=@{/assets/img/sidebar-7.jpg}">
+        <div class="logo">
+            <a th:href="@{/}" class="simple-text logo-mini text-light">
+                <img th:src="@{/assets/img/survey-logo.png}" alt="logo" width="50"
+                     height="50">
+            </a>
+            <a th:href="@{/}" class="logo-normal h4 blockquote" th:inline="text">[[${@environment.getProperty('spring.application.name.sidebar')}]]</a>
+        </div>
+        <div class="sidebar-wrapper">
+            <div class="user">
+                <div class="photo">
+                    <img th:src="${#authentication.principal.foto}"/>
+                </div>
+                <div class="user-info">
+                    <a data-toggle="collapse" href="#userInfo" class="username">
+                      <span th:inline="text">
+                        [[${#authentication.principal.displayName}]] <br> [[${#authentication.principal.rolePengguna}]]
+                        <b class="caret"></b>
+                      </span>
+                    </a>
+                    <div class="collapse" id="userInfo">
+                        <ul class="nav">
+                            <!--<th:block th:if="${#authentication.principal.rolePengguna} == ROLE_RESPONDEN">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/profil/akun}">
+                                    <span class="sidebar-mini"><i class="material-icons">manage_accounts</i></span>
+                                    <span class="sidebar-normal"> Akun Saya Responden</span>
+                                </a>
+                            </li>
+                            </th:block>
+                            <th:block th:if="${#authentication.principal.rolePengguna} == ROLE_PENELITI">
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/profil/akun}">
+                                        <span class="sidebar-mini"><i class="material-icons">manage_accounts</i></span>
+                                        <span class="sidebar-normal"> Akun Saya Peneliti</span>
+                                    </a>
+                                </li>
+                            </th:block>-->
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/profil/akun}">
+                                    <span class="sidebar-mini"><i class="material-icons">manage_accounts</i></span>
+                                    <span class="sidebar-normal"> Akun Saya</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/logout}">
+                                    <span class="sidebar-mini"><i class="material-icons">logout</i></span>
+                                    <span class="sidebar-normal"> Logout </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav">
+                <th:block th:each="menuLv1 : ${#authentication.principal.menus}">
+                    <th:block th:if="${menuLv1.idParent} == 0">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="${menuLv1.haveChild == '1' ? '#' + menuLv1.link : #request.contextPath + '/' + menuLv1.link}" th:attrappend="data-toggle=${menuLv1.haveChild == '1' ? 'collapse':''}">
+                                <i class="material-icons" th:inline="text">[[${menuLv1.icon}]]</i>
+                                <p th:inline="text">[[${menuLv1.nama}]]
+                                    <b class="caret" th:if="${menuLv1.haveChild} == '1'"></b>
+                                </p>
+                            </a>
+                            <th:block th:if="${menuLv1.haveChild} == '1'">
+                                <div class="collapse" th:id="${menuLv1.link}">
+                                    <ul class="nav">
+                                    <th:block th:each="menuLv2 : ${#authentication.principal.menus}">
+                                        <th:block th:if="${menuLv2.idParent == menuLv1.idMsMenu}">
+                                            <li class="nav-item ">
+                                                <a class="nav-link" th:href="${menuLv2.haveChild == '1' ? '#' + menuLv2.link : #request.contextPath + '/' + menuLv2.link}" th:attrappend="data-toggle=${menuLv2.haveChild == '1' ? 'collapse':''}">
+                                                    <span class="sidebar-mini">
+                                                        <i class="material-icons" th:inline="text">[[${menuLv2.icon}]]</i>
+                                                    </span>
+                                                    <span class="sidebar-normal" th:inline="text">[[${menuLv2.nama}]]
+                                                        <b class="caret" th:if="${menuLv2.haveChild} == '1'"></b>
+                                                    </span>
+                                                </a>
+                                                <th:block th:if="${menuLv2.haveChild} == '1'">
+                                                    <div class="collapse" th:id="${menuLv2.link}">
+                                                        <ul class="nav">
+                                                            <th:block th:each="menuLv3 : ${#authentication.principal.menus}">
+                                                                <th:block th:if="${menuLv3.idParent == menuLv2.idMsMenu}">
+                                                                    <li class="nav-item ">
+                                                                        <a class="nav-link" th:href="${menuLv3.haveChild == '1' ? '#' + menuLv3.link : #request.contextPath + '/' + menuLv3.link}" th:attrappend="data-toggle=${menuLv3.haveChild == '1' ? 'collapse':''}">
+                                                                            <span class="sidebar-mini">
+                                                                                <i class="material-icons" th:inline="text">[[${menuLv3.icon}]]</i>
+                                                                            </span>
+                                                                            <span class="sidebar-normal" th:inline="text">[[${menuLv3.nama}]]</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </th:block>
+                                                            </th:block>
+                                                        </ul>
+                                                    </div>
+                                                </th:block>
+                                            </li>
+                                        </th:block>
+                                    </th:block>
+                                    </ul>
+                                </div>
+                            </th:block>
+                        </li>
+                    </th:block>
+                </th:block>
+            </ul>
+        </div>
+        <div class="sidebar-background"></div>
+    </div>
+
+</th:block>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/icon/apple-touch-icon.png}">
+    <!--<link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/img/icon/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/img/icon/favicon-16x16.png}">-->
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/img/icon/survey.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/img/icon/survey.png}">
+    <link rel="manifest" th:href="@{/assets/img/icon/site.webmanifest}">
+    <link rel="mask-icon" th:href="@{/assets/img/icon/safari-pinned-tab.svg}" color="#5bbad5">
+    <link rel="shortcut icon" th:href="@{/assets/img/icon/survey.ico}">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-config" th:content="@{/assets/img/icon/browserconfig.xml}">
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title th:inline="text">
+        [[${@environment.getProperty('spring.application.name')}]]
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <!-- CSS Files -->
+    <link th:href="@{'/assets/css/material-dashboard.css' + '?v=2.2.2'}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/captcha/slidercaptcha.min.css}" rel="stylesheet"/>
+    <style>
+        .sliderContainer {
+            margin-bottom: 25px;
+        }
+        .sliderContainer_active {
+            margin-bottom: 25px !important;
+            padding-bottom: 40px !important;
+        }
+        .sliderContainer_fail {
+            margin-bottom: 25px !important;
+            padding-bottom: 40px !important;
+        }
+        .sliderContainer_success {
+            margin-bottom: 25px !important;
+            padding-bottom: 40px !important;
+        }
+        .sliderText {
+            user-select: none;
+        }
+    </style>
+    <script th:inline="javascript">
+        var _ctx =  /*[[@{~/}]]*/ '';
+    </script>
+</head>
+
+<body class="off-canvas-sidebar">
+<!-- Navbar -->
+<!--<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+    <div class="container">
+        <div class="navbar-wrapper logo">
+            <a class="navbar-brand" href="#" style="color: black" target="_blank">
+                <img th:src="@{/assets/img/survey-logo.png}" alt="logo" width="30" height="30" class="mr-2">
+                <span style="vertical-align: bottom">Survey Help</span></a>
+        </div>
+    </div>
+</nav>-->
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+    <div class="container">
+        <div class="navbar-wrapper logo">
+            <a class="navbar-brand" href="#" style="color: antiquewhite" target="_blank">
+                <img th:src="@{/assets/img/survey-logo.png}" alt="logo" width="60" height="60" class="mr-2">
+                <span style="vertical-align: middle">Survey Help</span></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="../register" class="nav-link">
+                        <i class="material-icons">person_add</i> Registrasi
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="../login" class="nav-link">
+                        <i class="material-icons">fingerprint</i> Masuk
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+<div class="wrapper wrapper-full-page">
+    <div class="page-header login-page header-filter" filter-color="white"
+         th:style="'background-image: url('+@{/assets/img/login.jpg}+'); background-size: cover; background-position: top center;'">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+                    <form th:action="@{/login_check_data}" method='POST' id="loginForm">
+                        <div class="card card-login card-hidden">
+                            <div class="card-header card-header-info text-center">
+                                <h4 class="card-title">LOGIN</h4>
+                            </div>
+                            <div class="card-body">
+                                <th:block th:if="${message} != ''">
+                                    <p class="text-danger text-center error-message-1" th:inline="text">[[${message}]]</p>
+                                </th:block>
+                                <p class="text-danger text-center error-message-2" style="display: none"></p>
+                                <span class="bmd-form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                            <i class="material-icons">face</i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" name="akun" id="akun" placeholder="Username..." required>
+                                    </div>
+                                </span>
+                                <span class="bmd-form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                            <i class="material-icons">lock_outline</i>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control" name="pass" id="pass" placeholder="Password..." required>
+                                    </div>
+                                </span>
+                                <br>
+                                <span class="bmd-form-group" style="display: none">
+                                    <div class="input-group">
+                                        <div id="botdetect-captcha" data-captchastylename="aktifaStyle" style="margin-left: 17px !important;"></div>
+                                    </div>
+                                </span>
+                                <span class="bmd-form-group" style="display: none">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                            <i class="material-icons">vpn_key</i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" name="txtCaptcha" id="txtCaptcha" value="ABC" placeholder="Kode Keamanan" required>
+                                    </div>
+                                </span>
+<!--                                <span class="bmd-form-group">-->
+<!--                                    <div class="slidercaptcha" style="margin-left: 20px !important;">-->
+<!--                                        <div id="captcha"></div>-->
+<!--                                    </div>-->
+<!--                                </span>-->
+                            </div>
+
+                            <div class="card-footer justify-content-center">
+                                <a href="#" class="btn btn-info btn-link btn-lg submitBtn">Login
+                                    <span class="material-icons">power_settings_new</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="https://www.creative-tim.com">
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://creative-tim.com/presentation">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, made with <i class="material-icons">favorite</i> by
+                    <a href="https://www.creative-tim.com" target="_blank">Kelompok 3.</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!--   Core JS Files   -->
+<script th:src="@{/assets/js/core/jquery.min.js}"></script>
+<script th:src="@{/assets/js/core/popper.min.js}"></script>
+<script th:src="@{/assets/js/core/bootstrap-material-design.min.js}"></script>
+<script th:src="@{/assets/js/plugins/perfect-scrollbar.min.js}"></script>
+<script th:src="@{'/assets/js/material-dashboard.js' + '?v=2.2.2'}" type="text/javascript"></script>
+<!--<script th:src="@{/assets/js/plugins/longbow.slidercaptcha.min.js}"></script>-->
+<script th:src="@{/assets/js/plugins/jquery-captcha.min.js}"></script>
+<script th:src="@{'/assets/js/page/login.js' + '?' + ${@environment.getProperty('app.jsversion')}}" type="text/javascript"></script>
+
+</body>
+</html>

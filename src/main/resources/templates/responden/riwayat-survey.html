@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+<div layout:fragment="content" th:remove="tag">
+    <div class="col-md-12 col-12 mr-auto ml-auto">
+        <div class="card ">
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">description</i>
+                </div>
+                <h4 class="card-title" style="width: 50% !important;">Daftar Survey</h4>
+            </div>
+            <div class="card-body ">
+                <div class="material-datatables">
+                    <table id="table" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>ID Survey</th>
+                            <th>Judul Survey</th>
+                            <th>Tanggal Isi Survei</th>
+                            <th>Reward</th>
+                        </tr>
+                        </thead>
+                        <tfoot align="right">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-success text-lg-left h4 blockquote"></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<th:block layout:fragment="page-script">
+    <script th:src="@{/assets/js/plugins/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate-message.js}"></script>
+    <script th:src="@{/assets/js/plugins/sum().js}"></script>
+    <script th:src="@{'/assets/js/page/responden/riwayat-survey.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}" type="text/javascript"></script>
+</th:block>
+</html>

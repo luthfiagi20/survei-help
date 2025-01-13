@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+<div layout:fragment="content" th:remove="tag">
+    <div class="row">
+    <div class="col-md-6">
+        <form class="form-horizontal" id="frmChangeProfile">
+            <div class="card ">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">manage_accounts</i>
+                    </div>
+                    <h4 class="card-title">Profil Pengguna</h4>
+                </div>
+                <div class="card-body ">
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">ID Pengguna</label>
+                        <div class="col-md-8">
+                            <div class="form-group has-default">
+                                <input type="text" class="form-control" id="txtid" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">Nama</label>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="txtNama" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">No Telp <span style="color: #ff7878">*</span></label>
+                        <div class="col-md-8">
+                            <div class="form-group">
+<!--                                <input type="text" class="form-control" id="txtNoTelp" name="txtNoTelp" required="true" maxlength="255">-->
+                                <input type="text" class="form-control" id="txtNoTelp" name="txtNoTelp">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer ml-auto mr-auto">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-facebook" id="btnSimpanProfile">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form class="form-horizontal" id="frmChangePass">
+            <div class="card ">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">key</i>
+                    </div>
+                    <h4 class="card-title">Form Ganti Password Pengguna</h4>
+                </div>
+                <div class="card-body ">
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">Password Lama <span style="color: #ff7878">*</span></label>
+                        <div class="col-md-8">
+                            <div class="form-group has-default">
+<!--                                <input type="password" class="form-control" id="txtPwdOld" name="txtPwdOld" required="true" maxlength="30">-->
+                                <input type="password" class="form-control" id="txtPwdOld" name="txtPwdOld" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">Password Baru <span style="color: #ff7878">*</span></label>
+                        <div class="col-md-8">
+                            <div class="form-group">
+<!--                                <input type="password" class="form-control" id="txtPwdNew" name="txtPwdNew" required="true" minlength="8" maxlength="30">-->
+                                <input type="password" class="form-control" id="txtPwdNew" name="txtPwdNew" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4 col-form-label">Konfirmasi <span style="color: #ff7878">*</span></label>
+                        <div class="col-md-8">
+                            <div class="form-group">
+<!--                                <input type="password" class="form-control" id="txtPwdNew2" name="txtPwdNew2" required="true" equalTo="#txtPwdNew">-->
+                                <input type="password" class="form-control" id="txtPwdNew2" name="txtPwdNew2" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer ml-auto mr-auto">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-facebook" id="btnSimpanPass">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+
+<th:block layout:fragment="page-script">
+    <script th:src="@{/assets/js/plugins/jquery.validate.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate-message.js}"></script>
+    <script th:src="@{'/assets/js/page/utility.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}" type="text/javascript"></script>
+    <script th:src="@{'/assets/js/page/profile/page-akun.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}" type="text/javascript"></script>
+</th:block>
+</html>

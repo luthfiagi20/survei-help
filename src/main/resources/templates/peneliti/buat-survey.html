@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+<div layout:fragment="content" th:remove="tag">
+    <div class="col-md-12 col-12 mr-auto ml-auto">
+        <div class="card ">
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">rule</i>
+                </div>
+                <h4 class="card-title" style="width: 50% !important;">Daftar Survey</h4>
+            </div>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card-body text-center">
+                            <button class="btn btn-info btn-round" id="btnTambahSurvey">
+                                <i class="material-icons">maps_ugc</i> buat survey
+                                <div class="ripple-container"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-datatables">
+                    <table id="table" class="table table-striped table-no-bordered table-hover" cellspacing="0"
+                           width="100%" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>ID Survey</th>
+                            <th>Judul Survey</th>
+                            <th>Total Pembayaran</th>
+                            <th>Status Pembayaran</th>
+                            <th class="disabled-sorting">Aksi</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdlBuatSurvey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title title-form">Form Buat Survey</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="frmUser">
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Judul Survey<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtJudul" name="txtJudul">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Link Survey <span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtLink" name="txtLink">
+                                </div>
+                                <label id="errorlabel-txtNama" class="text-danger" style="display: none">Isian ini harus
+                                    diisi
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Jumlah Responden<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtJmlResponden" name="txtJmlResponden"
+                                           number="true" required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Jumlah Pertanyaan<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtJmlPertanyaan"
+                                           name="txtJmlPertanyaan" number="true" required="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label text-right">Tanggal Mulai<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datepicker"
+                                           id="txtTglMulai" name="txtTglMulai">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label text-right">Tanggal Selesai<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datepicker"
+                                           id="txtTglSelesai" name="txtTglSelesai">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Kriteria Responden</label>
+                            <label class="col-md-3 col-form-label">Jenis Kelamin</label>
+                            <div class="col-md-6">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtJnsKelamin"
+                                               id="txtJnsKelamin_p" type="radio"
+                                               value="L"> Laki-laki
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtJnsKelamin" id="txtJnsKelamin_l"
+                                               type="radio" value="P">
+                                        Perempuan
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Status Pernikahan</label>
+                            <div class="col-md-6">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtStsNikah"
+                                               id="txtStsNikah_blm" type="radio"
+                                               value="1"> Belum Menikah
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtStsNikah" id="txtStsNikah_sdh"
+                                               type="radio" value="2">
+                                        Menikah
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtStsNikah" id="txtStsNikah_pernah"
+                                               type="radio" value="3">
+                                        Duda/Janda
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Pendidikan</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="selectpicker" data-size="7" data-style="select-with-transition"
+                                            id="optPendidikan" title="Pilih Pendidikan">
+                                        <option disabled> Pilih Pendidikan</option>
+                                        <option value="sma"> s.d SMA/Sederajat</option>
+                                        <option value="diploma"> Diploma I/II/III</option>
+                                        <option value="sarjana"> DIV/Sarjana</option>
+                                        <option value="s2"> S2</option>
+                                        <option value="s3"> S3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Pekerjaan</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="selectpicker" data-size="7" data-style="select-with-transition"
+                                            id="optPekerjaan" title="Pilih Pekerjaan">
+                                        <option disabled> Pilih Pekerjaan</option>
+                                        <option value="swasta"> Pegawai Swasta</option>
+                                        <option value="bumn"> Pegawai BUMN</option>
+                                        <option value="asn"> ASN</option>
+                                        <option value="swasta"> Wiraswasta</option>
+                                        <option value="pelajar"> Pelajar/Mahasiswa</option>
+                                        <option value="tidak_kerja"> Belum/Tidak Bekerja</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Total Pembayaran<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtTotalPby" name="txtTotalPby"
+                                           disabled>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success" id="btnHitung">Hitung Biaya</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-dark btn-link" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-facebook" id="btnSimpan">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    MODAL UPDATE PEMBAYARAN-->
+    <div class="modal fade" id="mdlUpdatePby" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title title-form">Form Update Pembayaran</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="form-horizontal" id="frmUpdatePby">
+                        <div class="row">
+                            <label class="col-md-4 col-form-label text-right">ID Survey<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-7 form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtPbyIdSurvey" name="txtPbyIdSurvey">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-4 col-form-label text-right">Judul Survey <span style="color: #ff7878">*</span></label>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtPbyJudul" name="txtPbyJudul"
+                                           disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-4 col-form-label text-right">Total Pembayaran<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtTotalPembayaran"
+                                           name="txtTotalPembayaran" disabled>
+                                </div>
+                                <!--                                <label id="errorlabel-txtTotalPembayaran" class="text-danger" style="display: none">Isian ini harus diisi &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="alert alert-warning alert-with-icon" data-notify="container">
+                                <i class="material-icons" data-notify="icon">notifications</i>
+                                <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <i class="material-icons">close</i>
+                                </button>-->
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message"><ul class="list-group">
+                                <li class="list-group-item">Silahkan lakukan pembayaran atas permintaan Survey anda agar segera di isi oleh Responden.</li>
+                                <li class="list-group-item">Setelah melakukan pembayaran, anda sudah tidak dapat melakukan perubahan pada data Survey.
+                                    </li>
+                                <li class="list-group-item">Silahkan melakukan pembayaran kepada Rekening berikut:</li>
+                                <li class="list-group-item"><b>Bank BRI nomor : 0924 0100 4126 507 an. SurveyHelp Indonesia</b></li>
+                            </ul></span>
+
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <label class="col-md-4 col-form-label label-checkbox text-right">Status Pembayaran<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-7 checkbox-radios">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="rbtPembayaran" value="1">
+                                        Sudah Di Bayar
+                                        <span class="circle">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="rbtPembayaran" value="0">
+                                        Belum
+                                        <span class="circle">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <label id="errorlabel-rbtPembayaran" class="text-danger" style="display: none">Isian ini
+                                    harus diisi
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                        </div>-->
+                        <div class="row">
+                            <!--<label class="col-md-4 col-form-label label-checkbox text-right">Status Pembayaran<span
+                                    style="color: #ff7878">*</span></label>-->
+                            <label class="col-md-4 col-form-label label-checkbox text-right">Upload Dokumen <span
+                                    style="color: #ff7878">*</span><code>(ukuran
+                                file max. 10 MB, Ekstensi File Harus JPEG, JPG, atau PNG)</code></label>
+
+                            <div class="col-md-7 form-group custom-file">
+<!--                                <div class="col-lg-7 col-md-4 col-sm-12 custom-file">-->
+
+                                <!--<%&#45;&#45;                                                <input type="file" class="custom-file-input" id="uplFile"
+                                                                                           name="uplFile">
+                                <label class="custom-file-label">Pilih Dokumen</label>&#45;&#45;%>-->
+                                <div class="input-group bs-input-file">
+                                                            <span class="input-group-prepend">
+                                                                <button class="btn btn-primary btn-choose choose"
+                                                                        type="button">Pilih
+                                                                </button>
+                                                            </span>
+                                    <input type="text" id="fileName" name="fileName"
+                                           class="form-control" placeholder='Pilih dokumen...'/>
+                                    <span class="input-group-append">
+                                                                <button class="btn btn-danger btn-reset" type="button">
+                                                                    Hapus
+                                                                </button>
+                                                            </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <label class="col-md-4 col-form-label text-right">Bukti Pembayaran<span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-md-7">
+&lt;!&ndash;                            <h4 class="title">Avatar</h4>&ndash;&gt;
+                            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail img-circle">
+&lt;!&ndash;                                    <img src="../../assets/img/placeholder.jpg" alt="...">&ndash;&gt;
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+                                <div>
+                          <span class="btn btn-round btn-rose btn-file">
+                            <span class="fileinput-new">Add Photo</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" name="..." />
+                          </span>
+                                    <br />
+                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>-->
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-dark btn-link" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-facebook" id="btnSimpanStsPby">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdlLihatSurvey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title title-form">Lihat Survey</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="frmLihatSurvey">
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">ID Survey</label>
+                            <div class="col-md-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtLihatIdSurvey" name="txtLihatIdSurvey" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Judul Survey</label>
+                            <div class="col-md-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtLihatJudul" name="txtLihatJudul" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Link Survey</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtLihatLink" name="txtLihatLink" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Jumlah Responden</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtJmlLihatResponden" name="txtJmlLihatResponden"
+                                           number="true" required="true" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Jumlah Pertanyaan</label>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtJmlLihatPertanyaan"
+                                           name="txtJmlLihatPertanyaan" number="true" required="true" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label text-right">Tanggal Mulai</label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datepicker"
+                                           id="txtLihatTglMulai" name="txtLihatTglMulai" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-3 col-form-label text-right">Tanggal Selesai</label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datepicker"
+                                           id="txtLihatTglSelesai" name="txtLihatTglSelesai" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Kriteria Responden</label>
+                            <label class="col-md-3 col-form-label">Jenis Kelamin</label>
+                            <div class="col-md-6">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtLihatJnsKelamin"
+                                               id="txtLihatJnsKelamin_p" type="radio"
+                                               value="L" disabled> Laki-laki
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtLihatJnsKelamin" id="txtLihatJnsKelamin_l"
+                                               type="radio" value="P" disabled>
+                                        Perempuan
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Status Pernikahan</label>
+                            <div class="col-md-6">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtLihatStsNikah"
+                                               id="txtLihatStsNikah_blm" type="radio"
+                                               value="1" disabled> Belum Menikah
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtLihatStsNikah" id="txtLihatStsNikah_sdh"
+                                               type="radio" value="2" disabled>
+                                        Menikah
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" name="txtLihatStsNikah" id="txtLihatStsNikah_pernah"
+                                               type="radio" value="3" disabled>
+                                        Duda/Janda
+                                        <span class="circle">
+                              <span class="check"></span>
+                            </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Pendidikan</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="selectpicker" data-size="7" data-style="select-with-transition"
+                                            id="optLihatPendidikan" title="Pilih Pendidikan" disabled>
+                                        <option value="sma"> s.d SMA/Sederajat</option>
+                                        <option value="diploma"> Diploma I/II/III</option>
+                                        <option value="sarjana"> DIV/Sarjana</option>
+                                        <option value="s2"> S2</option>
+                                        <option value="s3"> S3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right"></label>
+                            <label class="col-md-3 col-form-label">Pekerjaan</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="selectpicker" data-size="7" data-style="select-with-transition"
+                                            id="optLihatPekerjaan" title="Pilih Pekerjaan" disabled>
+                                        <option value="swasta"> Pegawai Swasta</option>
+                                        <option value="bumn"> Pegawai BUMN</option>
+                                        <option value="asn"> ASN</option>
+                                        <option value="swasta"> Wiraswasta</option>
+                                        <option value="pelajar"> Pelajar/Mahasiswa</option>
+                                        <option value="tidak_kerja"> Belum/Tidak Bekerja</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3 col-form-label text-right">Total Pembayaran</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txtLihatTotalPby" name="txtLihatTotalPby"
+                                           disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-facebook btn-link" data-dismiss="modal">Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<th:block layout:fragment="page-script">
+    <script th:src="@{/assets/js/plugins/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate-message.js}"></script>
+    <script th:src="@{/assets/js/plugins/moment.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/bootstrap-selectpicker.js}"></script>
+    <script th:src="@{/assets/js/plugins/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.bootstrap-wizard.js}"></script>
+    <script th:src="@{/assets/js/plugins/fullcalendar.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jasny-bootstrap.min.js}"></script>
+    <script th:src="@{'/assets/js/page/peneliti/buat-survey.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}"
+            type="text/javascript"></script>
+    <script th:src="@{'/assets/js/page/utility.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}"
+            type="text/javascript"></script>
+</th:block>
+</html>

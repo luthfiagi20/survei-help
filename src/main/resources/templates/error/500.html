@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>500 (INTERNAL SERVER ERROR)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/500.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/font-awesome.css}"/>
+</head>
+<body>
+<div class="page-wrap">
+    <h1>500</h1>
+    <h2>internal server error</h2>
+    <p th:inline="text">URL : [[${path}]]</p>
+    <p th:utext="${message != null} ? ${message}"></p>
+    <p><a href="/">home</a></p>
+</div>
+</body>
+</html>

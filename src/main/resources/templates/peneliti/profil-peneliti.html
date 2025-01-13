@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/base}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+
+<div layout:fragment="content" th:remove="tag">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" id="frmChangeProfile">
+                <div class="card ">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">account_circle</i>
+                        </div>
+                        <h4 class="card-title">Profil Pengguna</h4>
+                    </div>
+                    <div class="card-body ">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <div class="form-group has-default">
+                                    <input class="form-control" disabled="disabled" id="txtid" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Nama</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <input class="form-control" disabled="disabled" id="txtNama" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Nomor Telepon <span
+                                    style="color: #ff7878">*</span></label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <!--                                <input type="text" class="form-control" id="txtNoTelp" name="txtNoTelp" required="true" maxlength="255">-->
+                                    <input class="form-control" id="txtNoTelp" name="txtNoTelp" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Email <span style="color: #ff7878">*</span></label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <input class="form-control" id="txtEmail" name="txtEmail" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Pekerjaan</label>
+                            <div class="form-group col-sm-10">
+                                <select class="selectpicker" data-size="7" data-style="select-with-transition"
+                                        id="optPekerjaan" name="optPekerjaan" title="Pilih Pekerjaan">
+                                    <option value="swasta"> Pegawai Swasta</option>
+                                    <option value="bumn"> Pegawai BUMN</option>
+                                    <option value="asn"> ASN</option>
+                                    <option value="swasta"> Wiraswasta</option>
+                                    <option value="pelajar"> Pelajar/Mahasiswa</option>
+                                    <option value="tidak_kerja"> Belum/Tidak Bekerja</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer ml-auto mr-auto">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <button class="btn btn-facebook" id="btnSimpanProfile" type="button">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+<th:block layout:fragment="page-script">
+    <script th:src="@{/assets/js/plugins/jquery.validate.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.validate-message.js}"></script>
+    <script th:src="@{/assets/js/plugins/moment.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/bootstrap-selectpicker.js}"></script>
+    <script th:src="@{/assets/js/plugins/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/assets/js/plugins/jquery.bootstrap-wizard.js}"></script>
+    <script th:src="@{/assets/js/plugins/fullcalendar.min.js}"></script>
+    <script th:src="@{'/assets/js/page/utility.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}"
+            type="text/javascript"></script>
+    <script th:src="@{'/assets/js/page/peneliti/profil-peneliti.js' + '?v=' + ${@environment.getProperty('app.jsversion')}}"
+            type="text/javascript"></script>
+</th:block>
+</html>
