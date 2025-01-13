@@ -12,5 +12,4 @@ Fitur yang dimiliki :
 - Pengelolaan User
 
 
-Kontribusi
 Kami menyambut kontribusi dari komunitas developer untuk pengembangan aplikasi ini! Silakan fork repositori ini dan kirimkan pull request Anda.
